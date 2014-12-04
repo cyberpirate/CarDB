@@ -48,7 +48,6 @@ class Database
 		$phone = $this->conn->escape_string($phone);
 
 		$name = trim($name);
-		$address = trim($address);
 		$phone = trim($phone);
 
 		if(empty($phone) || empty($name))
@@ -139,17 +138,17 @@ class Database
 
 	public function newService_Appt($cid, $carid, $eid, $datein, $dateout) {
 
-		$dateout = $this->conn->escape_string($dateout);
-		$datein = $this->conn->escape_string($datein);
-		$eid = $this->conn->escape_string($eid);
-		$carid = $this->conn->escape_string($carid);
 		$cid = $this->conn->escape_string($cid);
+		$carid = $this->conn->escape_string($carid);
+		$eid = $this->conn->escape_string($eid);
+		$datein = $this->conn->escape_string($datein);
+		$dateout = $this->conn->escape_string($dateout);
 
-		$dateout = trim($dateout);
-		$datein = trim($datein);
-		$eid = trim($eid);
-		$carid = trim($carid);
 		$cid = trim($cid);
+		$carid = trim($carid);
+		$eid = trim($eid);
+		$datein = trim($datein);
+		$dateout = trim($dateout);
 
 		if(empty($cid) || empty($carid) || empty($eid) || empty($datein) || empty($dateout))
 			return -1;
