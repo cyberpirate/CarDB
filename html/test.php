@@ -2,8 +2,9 @@
 
 require_once("database.php");
 
+
 $db = new Database();
-var_dump($db->newCustomer("joe", "13 nowhere ave", "000000"));
+var_dump($db->getData("Customer", array("C_ID" => "15")));
 
 #echo($_REQUEST["name"]);
 

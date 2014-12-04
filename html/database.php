@@ -210,6 +210,40 @@ class Database
 		}
 	}
 
+	function toWhere($data) {
+		$where = "";
+
+		foreach($data as $key => $value) {
+			if(empty($value)) continue;
+			if(!empty($where)) $where .= " and";
+
+			$where .= " " . $key . "='" . $value . "'";
+		}
+
+		return $where;
+	}
+
+	function getData($table, $data) {
+
+		foreach($data as $key => $value) {
+			$data[$key] = trim($this->conn->escape_string($value));
+		}
+
+		$sql = "select * from " . $table . " where" . $this->toWhere($data);
+
+		$result = $this->conn->query($sql);
+
+		$data = array();
+
+		if($result->num_rows > 0) {
+
+			while($row = $result->fetch_assoc()) {
+ 				$data[] = $row;
+ 			}
+		}
+		return $data;
+	}
+
 	public function __destruct() {
 		if(!$this->conn->connect_error)
 			$this->conn->close();
