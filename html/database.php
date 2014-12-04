@@ -117,11 +117,11 @@ class Database
 		$price = $this->conn->escape_string($price);
 		$date = $this->conn->escape_string($date);
 
-		$date = trim($carid);
-		$price = trim($cid);
+		$carid = trim($carid);
+		$cid = trim($cid);
 		$eid = trim($eid);
-		$cid = trim($price);
-		$carid = trim($date);
+		$price = trim($price);
+		$date = trim($date);
 
 		if(empty($carid) || empty($cid) || empty($eid) || empty($price) || empty($date))
 			return -1;
