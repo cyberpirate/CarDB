@@ -9,7 +9,7 @@ $eid = $db->newEmployee("bob", "23215");
 $mid = $db->newMake("toyota", "garbage", "1776");
 $carid = $db->newCar($mid);
 $sid = $db->newSale($carid, $cid, $eid, "$999", "19930101");
-$aid = $db->newService_Appt($cid, $carid, $eid, "19931002", "19930201");
+$aid = $db->newService_Appt($cid, $carid, $eid, "19930102", "19930201");
 $servid = $db->newService("$999", "fix this shit");
 $servadded = $db->newServices_Done($aid, $servid);
 
