@@ -40,7 +40,174 @@ class Database
 		} else {
 			return -1;
 		}
+	}
 
+	public function newEmployee($name, $phone) {
+
+		$name = $this->conn->escape_string($name);
+		$phone = $this->conn->escape_string($phone);
+
+		$name = trim($name);
+		$address = trim($address);
+		$phone = trim($phone);
+
+		if(empty($phone) || empty($name))
+			return -1;
+
+		$sql = "insert into Employee (E_Name, E_Phone) values ('" . $name . "', '" . $phone . "');";
+
+		$result = $this->conn->query($sql);
+
+		if($result) {
+			return mysqli_insert_id($this->conn);
+		} else {
+			return -1;
+		}
+	}
+
+	public function newMake($make, $model, $year) {
+
+		$year = $this->conn->escape_string($year);
+		$model = $this->conn->escape_string($model);
+		$make = $this->conn->escape_string($make);
+
+		$make = trim($make);
+		$model = trim($model);
+		$year = trim($year);
+
+		if(empty($make) || empty($model) || empty($year))
+			return -1;
+
+		$sql = "insert into Make(M_Make, M_Model, M_Year) values ('" . $make . "', '" . $model . "', '" . $year . "');";
+
+		$result = $this->conn->query($sql);
+
+		if($result) {
+			return mysqli_insert_id($this->conn);
+		} else {
+			return -1;
+		}
+	}
+
+	public function newCar($mid) {
+
+		$mid = $this->conn->escape_string($mid);
+
+		$mid = trim($mid);
+
+		if(empty($mid))
+			return -1;
+
+		$sql = "insert into Car (M_ID) values ('" . $mid . "');";
+
+		$result = $this->conn->query($sql);
+
+		if($result) {
+			return mysqli_insert_id($this->conn);
+		} else {
+			return -1;
+		}
+	}
+
+	public function newSale($carid, $cid, $eid, $price, $date) {
+
+		$carid = $this->conn->escape_string($carid);
+		$cid = $this->conn->escape_string($cid);
+		$eid = $this->conn->escape_string($eid);
+		$price = $this->conn->escape_string($price);
+		$date = $this->conn->escape_string($date);
+
+		$date = trim($carid);
+		$price = trim($cid);
+		$eid = trim($eid);
+		$cid = trim($price);
+		$carid = trim($date);
+
+		if(empty($carid) || empty($cid) || empty($eid) || empty($price) || empty($date))
+			return -1;
+
+		$sql = "insert into Sale (Car_ID, C_ID, E_ID, Price, Date) values ('" . $carid . "', '" . $cid . "', '" . $eid . "', '" . $price . "', '" . $date . "');";
+
+		$result = $this->conn->query($sql);
+
+		if($result) {
+			return mysqli_insert_id($this->conn);
+		} else {
+			return -1;
+		}
+	}
+
+	public function newService_Appt($cid, $carid, $eid, $datein, $dateout) {
+
+		$dateout = $this->conn->escape_string($dateout);
+		$datein = $this->conn->escape_string($datein);
+		$eid = $this->conn->escape_string($eid);
+		$carid = $this->conn->escape_string($carid);
+		$cid = $this->conn->escape_string($cid);
+
+		$dateout = trim($dateout);
+		$datein = trim($datein);
+		$eid = trim($eid);
+		$carid = trim($carid);
+		$cid = trim($cid);
+
+		if(empty($cid) || empty($carid) || empty($eid) || empty($datein) || empty($dateout))
+			return -1;
+
+		$sql = "insert into Service_Appt(C_ID, Car_ID, E_ID, Date_In, Date_Out) values ('" . $cid . "', '" . $carid . "', '" . $eid . "', '" . $datein . "', '" . $dateout . "');";
+
+		$result = $this->conn->query($sql);
+
+		if($result) {
+			return mysqli_insert_id($this->conn);
+		} else {
+			return -1;
+		}
+	}
+
+	public function newServices_Done($aid, $servid) {
+
+		$aid = $this->conn->escape_string($aid);
+		$servid = $this->conn->escape_string($servid);
+
+		$aid = trim($aid);
+		$servid = trim($servid);
+
+		if(empty($aid) || empty($servid))
+			return -1;
+
+		$sql = "insert into Services_Done(A_ID, Serv_ID) values ('" . $aid . "', '" . $servid . "');";
+
+		$result = $this->conn->query($sql);
+
+		if($result) {
+			return 1;
+		} else {
+			return -1;
+		}
+	}
+
+
+	public function newService($cost, $desc) {
+
+		$cost = $this->conn->escape_string($cost);
+		$desc = $this->conn->escape_string($desc);
+
+		$cost = trim($cost);
+		$desc = trim($desc);
+
+		if(empty($cost) || empty($desc))
+			return -1;
+
+		$sql = "insert into Service (Cost, Description) values ('" . $cost . "', '" . $desc . "');";
+
+		$result = $this->conn->query($sql);
+
+		if($result) {
+			return mysqli_insert_id($this->conn);
+		} else {
+			return -1;
+		}
 	}
 
 	public function __destruct() {
