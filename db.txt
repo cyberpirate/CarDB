@@ -1,0 +1,20 @@
+
+#Tables
+#Customer (*C_ID, C_Name, C_Address, C_Phone)
+#Employee (*E_ID, E_Name, E_Phone)
+#Make(*M_ID, M_Make, M_Model, M_Year)
+#Car (*Car_ID, M_ID)
+#Sale (*S_ID, *Car_ID, *C_ID, *E_ID, Price, Date)
+#Service_Appt(*A_ID, *C_ID, *Car_ID, *E_ID, Date_In, Date_Out)
+#Services_Done(*A_ID, *Serv_ID)
+#Service (*Serv_ID, Cost, Description)
+
+#create tables
+create table Customer (C_ID int auto_increment, C_Name varchar(20), C_Address varchar(20), C_Phone varchar(20), primary key (C_ID));
+create table Employee (E_ID int auto_increment, E_Name varchar(20), E_Phone varchar(20), primary key (E_ID));
+create table Make(M_ID int auto_increment, M_Make varchar(20), M_Model varchar(20), M_Year varchar(20), primary key (M_ID));
+create table Car (Car_ID int auto_increment, M_ID int, primary key (Car_ID));
+create table Sale (S_ID int auto_increment, Car_ID int, C_ID int, E_ID int, Price varchar(20), Date date, primary key (S_ID, Car_ID, C_ID, E_ID));
+create table Service_Appt(A_ID int auto_increment, C_ID int, Car_ID int, E_ID int, Date_In date, Date_Out date, primary key (A_ID, C_ID, Car_ID, E_ID));
+create table Services_Done(A_ID int, Serv_ID int, primary key (A_ID, Serv_ID));
+create table Service (Serv_ID int auto_increment, Cost varchar(20), Description varchar(20), primary key (Serv_ID));
