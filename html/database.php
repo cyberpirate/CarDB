@@ -12,9 +12,16 @@ class Database
 		}
 	}
 
-	public function latestPurchase() {
-		$sql = "select c2.C_Name, s2.Date from Customer c1, Customer c2, Sale s1, Sale s2 where c1.C_ID == s1.C_ID and c2.C_ID == s2.C_ID and not s1.Date < s2.Date";
-
+	public function clearData() {
+		$sql = "";
+		$sql .= "delete from Service; ";
+		$sql .= "delete from Services_Done; ";
+		$sql .= "delete from Service_Appt; ";
+		$sql .= "delete from Sale; ";
+		$sql .= "delete from Car; ";
+		$sql .= "delete from Make; ";
+		$sql .= "delete from Employee; ";
+		$sql .= "delete from Customer;";
 		$result = $this->conn->query($sql);
 	}
 
@@ -222,6 +229,18 @@ class Database
 		return $where;
 	}
 
+	function resultToData($result) {
+		$data = array();
+
+		if($result->num_rows > 0) {
+
+			while($row = $result->fetch_assoc()) {
+				$data[] = $row;
+			}
+		}
+		return $data;
+	}
+
 	function getData($table, $data) {
 
 		foreach($data as $key => $value) {
@@ -232,15 +251,15 @@ class Database
 
 		$result = $this->conn->query($sql);
 
-		$data = array();
+		return $this->resultToData($result);
+	}
 
-		if($result->num_rows > 0) {
+	public function latestPurchase() {
+		$sql = "select c2.C_Name, s2.Date from Customer c1, Customer c2, Sale s1, Sale s2 where c1.C_ID = s1.C_ID and c2.C_ID = s2.C_ID and not s1.Date < s2.Date;";
 
-			while($row = $result->fetch_assoc()) {
- 				$data[] = $row;
- 			}
-		}
-		return $data;
+		$result = $this->conn->query($sql);
+
+		return $this->resultToData($result);
 	}
 
 	public function __destruct() {
