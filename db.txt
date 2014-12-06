@@ -39,5 +39,16 @@ delete from Employee;
 delete from Customer;
 
 #Get data
-select C_Name, C_Address, C_Phone from Customer where C_ID='CID';
-select E_Name, E_Phone from Employee where E_ID='EID';
+select * from Customer where COL=DATA
+
+#How recently did each customer purchase a vehicle?
+select c2.C_Name, s2.Date from Customer c1, Customer c2, Sale s1, Sale s2 where c1.C_ID = s1.C_ID and c2.C_ID = s2.C_ID and not s1.Date < s2.Date;
+
+#How many vehicles has each customer purchased?
+select C_Name, count(Sale) from Customer, Sale where Customer.C_ID = Sale.C_ID
+
+#How much money has each customer spent in total on all vehicle purchases?
+#How much in profit has each customer provided in total on all vehicle purchases?
+#How recently did each customer make a service appointment?
+#How long has each service appointment taken (from car drop-off to car pick-up)?
+#How to contact a customer of interest (for prospective marketing campaigns for vehicle purchases or vehicle maintenance)?
