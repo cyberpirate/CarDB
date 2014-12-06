@@ -29,8 +29,10 @@ if(empty($cols)) {
   exit(0);
 }
 
+require_once("database.php");
+
 $db = new Database();
-$results = $db->getData($table, $cols)
+$results = $db->getData($table, $cols);
 
 echo json_encode($results);
 
