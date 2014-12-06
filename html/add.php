@@ -19,7 +19,7 @@ switch($_REQUEST["table"]) {
     echo json_encode(array("id" => $db->newEmployee($_REQUEST["E_Name"], $_REQUEST["E_Phone"])));
     break;
   case "Make":
-    echo json_encode(array("id" => $db->newMake($_REQUEST["M_Make"], $_REQUEST["M_Model"], $_REQUEST["M_Year"])));
+    echo json_encode(array("id" => $db->newMake($_REQUEST["M_Make"], $_REQUEST["M_Model"], $_REQUEST["M_Year"], $_REQUEST["M_Cost"])));
     break;
   case "Car":
     echo json_encode(array("id" => $db->newCar($_REQUEST["M_ID"])));

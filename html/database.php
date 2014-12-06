@@ -71,20 +71,22 @@ class Database
 		}
 	}
 
-	public function newMake($make, $model, $year) {
+	public function newMake($make, $model, $year, $price) {
 
 		$year = $this->conn->escape_string($year);
 		$model = $this->conn->escape_string($model);
 		$make = $this->conn->escape_string($make);
+		$price = $this->conn->escape_string($price);
 
 		$make = trim($make);
 		$model = trim($model);
 		$year = trim($year);
+		$price = trim($price);
 
-		if(empty($make) || empty($model) || empty($year))
+		if(empty($make) || empty($model) || empty($year) || empty($price))
 			return -1;
 
-		$sql = "insert into Make(M_Make, M_Model, M_Year) values ('" . $make . "', '" . $model . "', '" . $year . "');";
+		$sql = "insert into Make(M_Make, M_Model, M_Year, M_Cost) values ('" . $make . "', '" . $model . "', '" . $year . "', '" . $price . "');";
 
 		$result = $this->conn->query($sql);
 

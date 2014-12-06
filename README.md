@@ -27,7 +27,7 @@ sample response:
 below are all the tables and columns that can be used, at least one table and one column must be in the request.
 Customer (C_ID, C_Name, C_Address, C_Phone)
 Employee (E_ID, E_Name, E_Phone)
-Make(M_ID, M_Make, M_Model, M_Year)
+Make(M_ID, M_Make, M_Model, M_Year, M_Cost)
 Car (Car_ID, M_ID)
 Sale (S_ID, Car_ID, C_ID, E_ID, Price, Date)
 Service_Appt(A_ID, C_ID, Car_ID, E_ID, Date_In, Date_Out)
@@ -51,7 +51,7 @@ sample response:
 Here are all the tables and columns. All columns are REQUIRED for their respective table.
 Customer (C_Name, C_Address, C_Phone)
 Employee (E_Name, E_Phone)
-Make (M_Make, M_Model, M_Year)
+Make (M_Make, M_Model, M_Year, M_Cost)
 Car (M_ID)
 Sale (Car_ID, C_ID, E_ID, Price, Date)
 Service_Appt (C_ID, Car_ID, E_ID, Date_In, Date_Out)
