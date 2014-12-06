@@ -40,6 +40,8 @@ add.php
 
 Insert data to the sql table. It returns a positive id if the insert worked. The id is the auto_increment key for the inserted data where it applies.
 
+NOTE: For the date datatypes to enter data the date MUST be in YYYYMMDD format, otherwise the column will default to 0000-00-00. The date colums are Date in Sale, and Date_In/Date_Out in Service_Appt
+
 sample post:
 /add.php?table=Customer&C_Name=Harold&C_Address=nowhere&C_Phone=000
 

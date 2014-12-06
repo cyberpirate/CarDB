@@ -254,7 +254,7 @@ class Database
 	}
 
 	public function latestPurchase() {
-		$sql = "select c2.C_Name, s2.Date from Customer c1, Customer c2, Sale s1, Sale s2 where c1.C_ID = s1.C_ID and c2.C_ID = s2.C_ID and not s1.Date < s2.Date;";
+		$sql = "select distinct c2.C_Name, s2.Date from Customer c1, Customer c2, Sale s1, Sale s2 where c1.C_ID = s1.C_ID and c2.C_ID = s2.C_ID and not s1.Date < s2.Date;";
 
 		$result = $this->conn->query($sql);
 
