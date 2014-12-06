@@ -22,7 +22,7 @@ class Database
 		$sql .= "delete from Make; ";
 		$sql .= "delete from Employee; ";
 		$sql .= "delete from Customer;";
-		$result = $this->conn->query($sql);
+		$result = $this->conn->multi_query($sql);
 	}
 
 	public function newCustomer($name, $address, $phone) {
