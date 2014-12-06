@@ -193,7 +193,6 @@ class Database
 		}
 	}
 
-
 	public function newService($cost, $desc) {
 
 		$cost = $this->conn->escape_string($cost);
