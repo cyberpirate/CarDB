@@ -1,7 +1,7 @@
 <?php
 
 if(empty($_REQUEST["reset"])) {
-  echo '<!DOCTYPE html><html><body><script>var x;if (confirm("Reset Data?") == true) {window.location.href = "/refresh_data.php/?reset=yes";}</script></body></html>';
+  echo '<!DOCTYPE html><html><body><script>var x;if (confirm("Reset Data?") == true) {window.location.href = "/refresh_data.php/?reset=reset";}</script></body></html>';
   return;
 }
 
@@ -29,18 +29,23 @@ function insertChunk($db, $C_Name, $C_Address, $C_Phone, $E_Name, $E_Phone, $M_M
   );
 }
 
-
 $db = new Database();
-$db->clearData();
 
-$ids = insertChunk($db, "jon", "pandaria", "435", "tyler durden", "00000", "sony", "notQuitePC", "2203", "$499", "2204", "20030304", "20030305", "$0.99", "but shit, it was 99 cents");
+if($_REQUEST["reset"] == "reset") {
+  $db->clearData();
+  echo '<!DOCTYPE html><html><body><script>var x;if (confirm("Refill Data?") == true) {window.location.href = "/refresh_data.php/?reset=refill";}</script></body></html>';
+}
 
-var_dump($ids);
+if($_REQUEST["reset"] == "refill") {
+  $ids = insertChunk($db, "jon", "pandaria", "435", "tyler durden", "00000", "sony", "notQuitePC", "2203", "$499", "2204", "20030304", "20030305", "$0.99", "but shit, it was 99 cents");
 
-$db->newSale($db->newCar($ids["mid"]), $ids["cid"], $ids["eid"], "$999", "2000");
+  $db->newSale($db->newCar($ids["mid"]), $ids["cid"], $ids["eid"], "$999", "2000");
 
-$ids = insertChunk($db, "greg", "stormwind", "342", "lulu", "9999", "microsoft", "flatboard", "2014", "$999999999998", "2014", "20030304", "20030305", "$300", "inflation");
-$ids = insertChunk($db, "enid", "hogwarts", "65875", "margret", "213", "apple", "hippimobile", "1990", "$999999999999", "2000", "20030304", "20030305", "$999", "in-car purchase");
-$ids = insertChunk($db, "jj binks", "mud", "3215", "lucian", "666", "ubisoft", "lovebuggy", "1999", "$352", "2001", "20030304", "20030305", "$40", "Bugs-Away DLC");
+  $ids = insertChunk($db, "greg", "stormwind", "342", "lulu", "9999", "microsoft", "flatboard", "2014", "$999999999998", "2014", "20030304", "20030305", "$300", "inflation");
+  $ids = insertChunk($db, "enid", "hogwarts", "65875", "margret", "213", "apple", "hippimobile", "1990", "$999999999999", "2000", "20030304", "20030305", "$999", "in-car purchase");
+  $ids = insertChunk($db, "jj binks", "mud", "3215", "lucian", "666", "ubisoft", "lovebuggy", "1999", "$352", "2001", "20030304", "20030305", "$40", "Bugs-Away DLC");
+
+  echo "done";
+}
 
 ?>
