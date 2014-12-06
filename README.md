@@ -57,3 +57,23 @@ Sale (Car_ID, C_ID, E_ID, Price, Date)
 Service_Appt (C_ID, Car_ID, E_ID, Date_In, Date_Out)
 Services_Done (A_ID, Serv_ID)
 Service (Cost, Description)
+
+
+stats.php
+=====
+
+Get the stats
+
+sample post:
+/stats.php?stat=cProfit
+
+returns the results the same way get.php does
+
+Here are the stats with their column outputs
+latestPurchase: C_Name, Date
+cPurchase: C_Name, Bought
+cSpent: C_Name, Spent
+cProfit: C_Name, Profit
+cLastAppt: C_Name, Date_In
+serviceTime: A_ID, Days
+allCustomers: all columns in Customer

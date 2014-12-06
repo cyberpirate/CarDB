@@ -256,7 +256,55 @@ class Database
 	}
 
 	public function latestPurchase() {
-		$sql = "select distinct c2.C_Name, s2.Date from Customer c1, Customer c2, Sale s1, Sale s2 where c1.C_ID = s1.C_ID and c2.C_ID = s2.C_ID and not s1.Date < s2.Date;";
+		$sql = "select distinct c2.C_Name, s2.Date from Customer c1, Customer c2, Sale s1, Sale s2 where c1.C_ID = s1.C_ID and c2.C_ID = s2.C_ID and not s1.Date <= s2.Date;";
+
+		$result = $this->conn->query($sql);
+
+		return $this->resultToData($result);
+	}
+
+	public function cPurchase() {
+		$sql = "select C_Name, (select count(Sale.C_ID) from Sale where Sale.C_ID = Customer.C_ID) as Bought from Customer;";
+
+		$result = $this->conn->query($sql);
+
+		return $this->resultToData($result);
+	}
+
+	public function cSpent() {
+		$sql = "select C_Name, (select sum(Sale.Price) from Sale where Sale.C_ID = Customer.C_ID) as Spent from Customer;";
+
+		$result = $this->conn->query($sql);
+
+		return $this->resultToData($result);
+	}
+
+	public function cProfit() {
+		$sql = "select C_Name, (select sum((Sale.Price-Make.M_Cost)) from Sale, Make, Car where Sale.C_ID = Customer.C_ID and Sale.Car_ID = Car.Car_ID and Car.M_ID = Make.M_ID) as Profit from Customer;";
+
+		$result = $this->conn->query($sql);
+
+		return $this->resultToData($result);
+	}
+
+	public function cLastAppt() {
+		$sql = "select c2.C_Name, sa2.Date_In from Customer c1, Sale s1, Service_Appt sa1, Customer c2, Sale s2, Service_Appt sa2 where c1.C_ID = s1.C_ID and s1.Car_Id = sa1.Car_ID and c2.C_ID = s2.C_ID and s2.Car_Id = sa2.Car_ID and not sa1.Date_In <= sa2.Date_In;";
+
+		$result = $this->conn->query($sql);
+
+		return $this->resultToData($result);
+	}
+
+	public function serviceTime() {
+		$sql = "select A_ID, (Date_Out-Date_In) as Days from Service_Appt;";
+
+		$result = $this->conn->query($sql);
+
+		return $this->resultToData($result);
+	}
+
+	public function allCustomers() {
+		$sql = "select * from Customer;";
 
 		$result = $this->conn->query($sql);
 

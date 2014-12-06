@@ -6,7 +6,7 @@ function is_table($table) {
 }
 
 function is_col($col) {
-  $cols = array("C_ID", "C_Name", "C_Address", "C_Phone", "E_ID", "E_Name", "E_Phone", "M_ID", "M_Make", "M_Model", "M_Year", "Car_ID", "M_ID", "S_ID", "Car_ID", "C_ID", "E_ID", "Price", "Date", "A_ID", "C_ID", "Car_ID", "E_ID", "Date_In", "Date_Out", "A_ID", "Serv_ID", "Serv_ID", "Cost", "Description");
+  $cols = array("C_ID", "C_Name", "C_Address", "C_Phone", "E_ID", "E_Name", "E_Phone", "M_ID", "M_Make", "M_Cost", "M_Model", "M_Year", "Car_ID", "M_ID", "S_ID", "Car_ID", "C_ID", "E_ID", "Price", "Date", "A_ID", "C_ID", "Car_ID", "E_ID", "Date_In", "Date_Out", "A_ID", "Serv_ID", "Serv_ID", "Cost", "Description");
   return in_array($col, $cols);
 }
 

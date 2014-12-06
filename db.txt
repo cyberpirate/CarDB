@@ -1,7 +1,7 @@
 #Tables
 #Customer (*C_ID, C_Name, C_Address, C_Phone)
 #Employee (*E_ID, E_Name, E_Phone)
-#Make (*M_ID, M_Make, M_Model, M_Year)
+#Make (*M_ID, M_Make, M_Model, M_Year, M_Cost)
 #Car (*Car_ID, M_ID)
 #Sale (*S_ID, *Car_ID, *C_ID, *E_ID, Price, Date)
 #Service_Appt (*A_ID, *C_ID, *Car_ID, *E_ID, Date_In, Date_Out)
@@ -41,7 +41,7 @@ delete from Customer;
 #Get data
 select * from TABLE where COL=DATA
 
-#How recently did each customer purchase a vehicle?
+#How recently did each customer purchase a vehicle? <== possibly buggy
 select distinct c2.C_Name, s2.Date
 from Customer c1, Customer c2, Sale s1, Sale s2
 where
@@ -50,12 +50,24 @@ where
   not s1.Date <= s2.Date;
 
 #How many vehicles has each customer purchased?
-select C_Name, (select count(Sale.C_ID) from Sale where Sale.C_ID = Customer.C_ID) from Customer;
+select C_Name, (select count(Sale.C_ID) from Sale where Sale.C_ID = Customer.C_ID) as Bought from Customer;
 
 #How much money has each customer spent in total on all vehicle purchases?
-select C_Name, (select sum(Sale.Price) from Sale where Sale.C_ID = Customer.C_ID) from Customer;
+select C_Name, (select sum(Sale.Price) from Sale where Sale.C_ID = Customer.C_ID) as Spent from Customer;
 
 #How much in profit has each customer provided in total on all vehicle purchases?
-#How recently did each customer make a service appointment?
+select C_Name, (select sum((Sale.Price-Make.M_Cost)) from Sale, Make, Car where Sale.C_ID = Customer.C_ID and Sale.Car_ID = Car.Car_ID and Car.M_ID = Make.M_ID) as Profit from Customer;
+
+#How recently did each customer make a service appointment? <== buggy
+select c2.C_Name, sa2.Date_In
+from Customer c1, Sale s1, Service_Appt sa1, Customer c2, Sale s2, Service_Appt sa2
+where
+  c1.C_ID = s1.C_ID and s1.Car_Id = sa1.Car_ID and
+  c2.C_ID = s2.C_ID and s2.Car_Id = sa2.Car_ID and
+  not sa1.Date_In <= sa2.Date_In;
+
 #How long has each service appointment taken (from car drop-off to car pick-up)?
+select A_ID, (Date_Out-Date_In) as Days from Service_Appt;
+
 #How to contact a customer of interest (for prospective marketing campaigns for vehicle purchases or vehicle maintenance)?
+select * from Customer;
