@@ -1,31 +1,31 @@
 #Tables
 #Customer (*C_ID, C_Name, C_Address, C_Phone)
 #Employee (*E_ID, E_Name, E_Phone)
-#Make(*M_ID, M_Make, M_Model, M_Year)
+#Make (*M_ID, M_Make, M_Model, M_Year)
 #Car (*Car_ID, M_ID)
 #Sale (*S_ID, *Car_ID, *C_ID, *E_ID, Price, Date)
-#Service_Appt(*A_ID, *C_ID, *Car_ID, *E_ID, Date_In, Date_Out)
-#Services_Done(*A_ID, *Serv_ID)
+#Service_Appt (*A_ID, *C_ID, *Car_ID, *E_ID, Date_In, Date_Out)
+#Services_Done (*A_ID, *Serv_ID)
 #Service (*Serv_ID, Cost, Description)
 
 #create tables
 create table Customer (C_ID int auto_increment, C_Name varchar(20), C_Address varchar(20), C_Phone varchar(20), primary key (C_ID));
 create table Employee (E_ID int auto_increment, E_Name varchar(20), E_Phone varchar(20), primary key (E_ID));
-create table Make(M_ID int auto_increment, M_Make varchar(20), M_Model varchar(20), M_Year varchar(20), primary key (M_ID));
+create table Make (M_ID int auto_increment, M_Make varchar(20), M_Model varchar(20), M_Year varchar(20), M_Cost int, primary key (M_ID));
 create table Car (Car_ID int auto_increment, M_ID int, primary key (Car_ID));
-create table Sale (S_ID int auto_increment, Car_ID int, C_ID int, E_ID int, Price varchar(20), Date date, primary key (S_ID, Car_ID, C_ID, E_ID));
-create table Service_Appt(A_ID int auto_increment, C_ID int, Car_ID int, E_ID int, Date_In date, Date_Out date, primary key (A_ID, C_ID, Car_ID, E_ID));
-create table Services_Done(A_ID int, Serv_ID int, primary key (A_ID, Serv_ID));
-create table Service (Serv_ID int auto_increment, Cost varchar(20), Description varchar(20), primary key (Serv_ID));
+create table Sale (S_ID int auto_increment, Car_ID int, C_ID int, E_ID int, Price int, Date date, primary key (S_ID, Car_ID, C_ID, E_ID));
+create table Service_Appt (A_ID int auto_increment, C_ID int, Car_ID int, E_ID int, Date_In date, Date_Out date, primary key (A_ID, C_ID, Car_ID, E_ID));
+create table Services_Done (A_ID int, Serv_ID int, primary key (A_ID, Serv_ID));
+create table Service (Serv_ID int auto_increment, Cost int, Description varchar(20), primary key (Serv_ID));
 
 #Insert values
 insert into Customer (C_Name, C_Address, C_Phone) values ('NAME', 'ADDRESS', 'PHONE');
 insert into Employee (E_Name, E_Phone) values ('NAME', 'PHONE');
-insert into Make(M_Make, M_Model, M_Year) values ('MAKE', 'MODEL', 'YEAR');
+insert into Make (M_Make, M_Model, M_Year, M_Cost) values ('MAKE', 'MODEL', 'YEAR', 'COST');
 insert into Car (M_ID) values ('MID');
 insert into Sale (Car_ID, C_ID, E_ID, Price, Date) values ('Car_ID', 'C_ID', 'E_ID', 'Price', 'Date');
-insert into Service_Appt(C_ID, Car_ID, E_ID, Date_In, Date_Out) values ('C_ID', 'Car_ID', 'E_ID', 'Date_In', 'Date_Out');
-insert into Services_Done(A_ID, Serv_ID) values ('A_ID', 'Serv_ID');
+insert into Service_Appt (C_ID, Car_ID, E_ID, Date_In, Date_Out) values ('C_ID', 'Car_ID', 'E_ID', 'Date_In', 'Date_Out');
+insert into Services_Done (A_ID, Serv_ID) values ('A_ID', 'Serv_ID');
 insert into Service (Cost, Description) values ('Cost', 'Description');
 
 #Clear Tables
@@ -39,15 +39,22 @@ delete from Employee;
 delete from Customer;
 
 #Get data
-select * from Customer where COL=DATA
+select * from TABLE where COL=DATA
 
 #How recently did each customer purchase a vehicle?
-select c2.C_Name, s2.Date from Customer c1, Customer c2, Sale s1, Sale s2 where c1.C_ID = s1.C_ID and c2.C_ID = s2.C_ID and not s1.Date < s2.Date;
+select distinct c2.C_Name, s2.Date
+from Customer c1, Customer c2, Sale s1, Sale s2
+where
+  c1.C_ID = s1.C_ID and
+  c2.C_ID = s2.C_ID and
+  not s1.Date <= s2.Date;
 
 #How many vehicles has each customer purchased?
-select C_Name, count(Sale) from Customer, Sale where Customer.C_ID = Sale.C_ID
+select C_Name, (select count(Sale.C_ID) from Sale where Sale.C_ID = Customer.C_ID) from Customer;
 
 #How much money has each customer spent in total on all vehicle purchases?
+select C_Name, (select sum(Sale.Price) from Sale where Sale.C_ID = Customer.C_ID) from Customer;
+
 #How much in profit has each customer provided in total on all vehicle purchases?
 #How recently did each customer make a service appointment?
 #How long has each service appointment taken (from car drop-off to car pick-up)?
