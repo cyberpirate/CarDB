@@ -319,6 +319,24 @@ class Database
 		return $this->resultToData($result);
 	}
 
+	public function getCarsOwned($cid){
+		$cid = $this->conn->escape_string($cid);
+
+		$cid = trim($cid);
+
+		$sql = "select Car.Car_ID, Make.M_Make, Make.M_Model, Make.M_Year from Car, Make, Sale where Sale.C_ID = '" . $cid . "' and Sale.Car_ID = Car.Car_ID and Make.M_ID = Car.M_ID;";
+		$result = $this->conn->query($sql);
+		return $this->resultToData($result);
+	}
+
+	public function allServices() {
+		$sql = "select * from Service;";
+
+		$result = $this->conn->query($sql);
+
+		return $this->resultToData($result);
+	}
+
 	public function __destruct() {
 		if(!$this->conn->connect_error)
 			$this->conn->close();

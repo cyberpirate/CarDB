@@ -1,0 +1,102 @@
+<div id="employeeData">
+  <form action="#" name="employee">
+    <table>
+      <tr><td>Name:</td><td><input type="text" name="E_Name"></td></tr>
+      <tr><td>Phone:</td><td><input type="text" name="E_Phone"></td></tr>
+    </table>
+    <input type="button" value="Submit" onclick="addEmployee()">
+    <input type="button" value="Search" onclick="searchEmployee()">
+  </form>
+</div>
+
+<script>
+
+var eid = -1;
+var eResults;
+
+addEmployee = function() {
+  var employee = document.forms["employee"];
+
+  var d = {
+    table: "Employee",
+    E_Name: employee.elements["E_Name"].value,
+    E_Phone: employee.elements["E_Phone"].value
+  };
+
+  $.ajax({
+    url: "add.php",
+    dataType: "json",
+    type: "POST",
+    data: d,
+    success: function(data) {
+      if(typeof data.id != 'undefined') {
+        setEmployee(data.id, d.E_Name, d.E_Phone);
+      }
+    }
+  });
+};
+
+setEmployee = function(id, name, phone) {
+  eid = id;
+  document.getElementById("employeeData").innerHTML = "<table><tr><td>" + name + "</td><td>" + phone + "</td></tr></table>";
+}
+
+searchEmployee = function() {
+  var employee = document.forms["employee"];
+
+  var d = {
+    table: "Employee"
+  };
+
+  if(employee.elements["E_Name"].value) {
+    d.E_Name = employee.elements["E_Name"].value;
+  }
+
+  if(employee.elements["E_Phone"].value) {
+    d.E_Phone = employee.elements["E_Phone"].value;
+  }
+
+  if(Object.keys(d).length == 1) {
+    window.alert("enter search terms");
+    return;
+  }
+
+  $.ajax({
+    url: "get.php",
+    dataType: "json",
+    type: "POST",
+    data: d,
+    success: function(data) {
+      if(data.length == 0) {
+        window.alert("no results");
+        return;
+      }
+
+      if(data.length == 1) {
+        setEmplyee(data[0].E_ID, data[0].E_Name, data[0].E_Phone);
+        return;
+      }
+
+      eResults = data;
+
+      var results = "<form><table>";
+
+      for(i = 0; i < data.length; i++) {
+        results += '<tr><td><input type="radio" name="eResult" value="' + i + '"></td><td>' + data[i].E_Name + '</td><td>' + data[i].E_Phone + '</td></tr>';
+      }
+
+      results += '</table><input type="button" value="Select" onclick="setEmployeeFromRadio()"/></form>';
+
+      document.getElementById("employeeData").innerHTML = results;
+    }
+  });
+};
+
+setEmployeeFromRadio = function() {
+  var index = $('input[name=eResult]:checked').val();
+
+  setEmployee(eResults[index].E_ID, eResults[index].E_Name, eResults[index].E_Phone);
+};
+
+
+</script>
