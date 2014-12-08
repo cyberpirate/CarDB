@@ -231,6 +231,9 @@ class Database
 	}
 
 	function resultToData($result) {
+		if(!$result)
+			return array("err" => mysqli_error($this->conn));
+
 		$data = array();
 
 		if($result->num_rows > 0) {
@@ -349,8 +352,10 @@ class Database
 
 		$beginDate = trim($beginDate);
 		$endDate = trim($endDate);
-		$sql = "select distinct M_Year, M_Make, M_Model, (select sum((Sale.Price-Make.M_Cost)) from Sale, Make, Car where Sale.C_ID = Customer.C_ID and Sale.Car_ID = Car.Car_ID and Car.M_ID = Make.M_ID and Sale.Date >= ". $beginDate ." and Sale.Date <= ".$endDate .")";
+
+		$sql = "select distinct Make.M_Make, Make.M_Model, Make.M_Year, (select sum(s.Price-m.M_Cost) from Sale as s, Make as m, Car as c where c.M_ID = m.M_ID and c.Car_ID = s.Car_ID and Make.M_ID = m.M_ID) as Profit from Make, Car, Sale where Car.M_ID = Make.M_ID and Car.Car_ID = Sale.Car_ID and Sale.Date >= '" . $beginDate . "' and Sale.Date <= '" . $endDate . "';";
 		$result = $this->conn->query($sql);
+
 		return $this->resultToData($result);
 	}
 }

@@ -7,12 +7,21 @@
 
   <body>
 
+    Customer:<br>
     <?php include("find_customer.html"); ?>
+    <br>
 
+    Employee:<br>
+    <?php include("find_employee.html"); ?>
+    <br>
+
+    Car to be serviced:<br>
     <div id="carData">
       <button type="button" onclick="searchCars()">Search</buton>
     </div>
+    <br>
 
+    Services:<br>
     <div id="serviceData">
       <?php
         require_once("database.php");
@@ -21,7 +30,7 @@
         $data = $db->allServices();
 
         if(count($data) == 0) {
-          echo "no cars to sell";
+          echo "services found";
         } else {
           $results = "<form><table>";
           $results .= "<tr><td></td><td>Description</td><td>Cost</td></tr>";
@@ -39,6 +48,15 @@
           echo $results;
         }
       ?>
+    </div>
+    <br>
+
+    Date of appointment:<br>
+    <div id="dateData">
+      <form action="#" name="service">
+          From <input type="date" name="Date_In"> to <input type="date" name="Date_Out"><br><br>
+          <input type="button" value="Submit" onclick="addAppt()">
+      </form>
     </div>
 
   </body>
@@ -125,6 +143,81 @@ setServiceFromRadio = function() {
   html += "</table>";
 
   document.getElementById("serviceData").innerHTML = html;
+}
+
+addAppt = function() {
+  var service = document.forms["service"];
+
+  if(cid == -1) {
+    window.alert("Select a customer");
+    return;
+  }
+
+  if(eid == -1) {
+    window.alert("Select an employee");
+    return;
+  }
+
+  if(carID == -1) {
+    window.alert("Select a car");
+    return;
+  }
+
+  if(services.length == 0) {
+    window.alert("Select at least one Service");
+    return;
+  }
+
+  var d = {
+    table: "Service_Appt",
+    C_ID: cid,
+    E_ID: eid,
+    Car_ID: carID,
+    Date_In: service.elements["Date_In"].value.replace(/-/g, ""),
+    Date_Out: service.elements["Date_Out"].value.replace(/-/g, "")
+  };
+
+  if(!d.Date_In || !d.Date_Out) {
+    window.alert("Select dates");
+    return;
+  }
+
+  $.ajax({
+    url: "add.php",
+    dataType: "json",
+    type: "POST",
+    data: d,
+    success: function(data) {
+      if(typeof data.id != 'undefined' && data.id != -1) {
+        var aid = data.id;
+
+        for(x in services) {
+          var service = serviceResults[services[x]];
+          $.ajax({
+            url: "add.php",
+            dataType: "json",
+            type: "POST",
+            data: {
+              table: "Services_Done",
+              A_ID: aid,
+              Serv_ID: service.Serv_ID
+            }
+          });
+        }
+        window.alert("success");
+        onSuccess();
+
+      } else {
+        window.alert("failed");
+      }
+    }
+  });
+}
+
+onSuccess = function() {
+  var dateData = document.getElementById("dateData");
+  dateData.innerHTML = "From " + service.elements["Date_In"].value + " to " + service.elements["Date_Out"].value;
+  window.print();
 }
 
 </script>
