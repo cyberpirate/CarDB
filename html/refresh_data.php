@@ -41,8 +41,8 @@ if($_REQUEST["reset"] == "refill") {
 
   $db->newSale($db->newCar($ids["mid"]), $ids["cid"], $ids["eid"], "999", "20000101");
 
-  $ids = insertChunk($db, "greg", "stormwind", "342", "lulu", "9999", "microsoft", "flatboard", "2014", "100", "999999999998", "20140101", "20030304", "20030305", "300", "inflation");
-  $ids = insertChunk($db, "enid", "hogwarts", "65875", "margret", "213", "apple", "hippimobile", "1990", "100", "999999999999", "20000101", "20030304", "20030305", "999", "in-car purchase");
+  $ids = insertChunk($db, "greg", "stormwind", "342", "lulu", "9999", "microsoft", "flatboard", "2014", "100", "2000", "20140101", "20030304", "20030305", "300", "inflation");
+  $ids = insertChunk($db, "enid", "hogwarts", "65875", "margret", "213", "apple", "hippimobile", "1990", "100", "2000", "20000101", "20030304", "20030305", "999", "in-car purchase");
   $ids = insertChunk($db, "jj binks", "mud", "3215", "lucian", "666", "ubisoft", "lovebuggy", "1999", "100", "352", "20010101", "20030304", "20030305", "40", "Bugs-Away DLC");
 
   echo "done";

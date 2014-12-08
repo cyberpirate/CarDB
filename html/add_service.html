@@ -1,0 +1,44 @@
+<div id="serviceData">
+  <form action="#" name="service">
+    <table>
+      <tr><td>Description:</td><td><input type="text" name="Description"></td></tr>
+      <tr><td>Cost:</td><td><input type="text" name="Cost"></td></tr>
+    </table>
+    <input type="button" value="Submit" onclick="addService()">
+  </form>
+</div>
+
+<script>
+
+var eid = -1;
+var eResults;
+
+addService = function() {
+  var service = document.forms["service"];
+
+  var d = {
+    table: "Service",
+    Description: service.elements["Description"].value,
+    Cost: service.elements["Cost"].value
+  };
+
+  $.ajax({
+    url: "add.php",
+    dataType: "json",
+    type: "POST",
+    data: d,
+    success: function(data) {
+      if(typeof data.id != 'undefined') {
+        setService(data.id, d.Description, d.Cost);
+      }
+    }
+  });
+};
+
+setService = function(id, description, cost) {
+  eid = id;
+  document.getElementById("serviceData").innerHTML = "<table><tr><td>" + description + "</td><td>" + cost + "</td></tr></table>";
+}
+
+
+</script>

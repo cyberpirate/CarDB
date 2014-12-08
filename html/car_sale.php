@@ -91,6 +91,18 @@ addSale = function() {
     Date: sale.elements["Date"].value.replace(/-/g, "")
   };
 
+  d.Price = d.Price.replace(/\D/g,'');
+
+  if(!d.Price) {
+    window.alert("Enter price");
+    return;
+  }
+
+  if(!d.Date) {
+    window.alert("Select date");
+    return;
+  }
+
   $.ajax({
     url: "add.php",
     dataType: "json",

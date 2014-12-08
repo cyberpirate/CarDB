@@ -1,0 +1,140 @@
+<div id="makeData">
+  <form action="#" name="make">
+    <table>
+      <tr><td>Make:</td><td><input type="text" name="M_Make"></td></tr>
+      <tr><td>Model:</td><td><input type="text" name="M_Model"></td></tr>
+      <tr><td>Year:</td><td><input type="text" name="M_Year"></td></tr>
+      <tr><td>Cost:</td><td><input type="number" name="M_Cost"></td></tr>
+    </table>
+    <input type="button" value="Submit" onclick="addMake()">
+    <input type="button" value="Search" onclick="searchMake()">
+  </form>
+</div>
+<script>
+
+var mid = -1;
+var mResults;
+
+addMake = function() {
+  var make = document.forms["make"];
+
+  var d = {
+    table: "Make",
+    M_Make: make.elements["M_Make"].value,
+    M_Model: make.elements["M_Model"].value,
+    M_Year: make.elements["M_Year"].value,
+    M_Cost: make.elements["M_Cost"].value
+  };
+
+  $.ajax({
+    url: "add.php",
+    dataType: "json",
+    type: "POST",
+    data: d,
+    success: function(data) {
+      if(typeof data.id != 'undefined') {
+        setMake(data.id, d.M_Make, d.M_Model, d.M_Year, d.M_Cost);
+      }
+    }
+  });
+};
+
+setMake = function(id, make, model, year, cost) {
+  mid = id;
+  document.getElementById("makeData").innerHTML = "<table><tr><td>" + make + "</td><td>" + model + "</td><td>" + year + "</td><td>$" + cost + '</td><td><button type="button" onclick="addCarFromMake()">Add Car</button></td></tr></table>';
+}
+
+addCarFromMake = function() {
+
+  if(mid == -1) {
+    window.alert("ID invalid");
+    return;
+  }
+
+  $.ajax({
+    url: "add.php",
+    dataType: "json",
+    type: "POST",
+    data: {
+      table: "Car",
+      M_ID: mid
+    },
+    success: function(data) {
+      if(typeof data.id != 'undefined' && data.id != -1) {
+        carid = data.id;
+        window.alert("success");
+      } else {
+        window.alert("failed");
+      }
+    }
+  })
+
+}
+
+searchMake = function() {
+  var make = document.forms["make"];
+
+  var d = {
+    table: "Make"
+  };
+
+  if(make.elements["M_Make"].value) {
+    d.M_Make = make.elements["M_Make"].value;
+  }
+
+  if(make.elements["M_Model"].value) {
+    d.M_Model = make.elements["M_Model"].value;
+  }
+
+  if(make.elements["M_Year"].value) {
+    d.M_Year = make.elements["M_Year"].value;
+  }
+
+  if(make.elements["M_Cost"].value) {
+    d.M_Cost = make.elements["M_Cost"].value;
+  }
+
+  if(Object.keys(d).length == 1) {
+    window.alert("enter search terms");
+    return;
+  }
+
+  $.ajax({
+    url: "get.php",
+    dataType: "json",
+    type: "POST",
+    data: d,
+    success: function(data) {
+      if(data.length == 0) {
+        window.alert("no results");
+        return;
+      }
+
+      if(data.length == 1) {
+        setMake(data[0].M_ID, data[0].M_Make, data[0].M_Model, data[0].M_Year);
+        return;
+      }
+
+      mResults = data;
+
+      var results = "<form><table>";
+
+      results += "<tr><td></td><td>Make</td><td>Model</td><td>Year</td><td>Cost</td></tr>"
+
+      for(i = 0; i < data.length; i++) {
+        results += '<tr><td><input type="radio" name="mResult" value="' + i + '"></td><td>' + data[i].M_Make + '</td><td>' + data[i].M_Model + '</td><td>' + data[i].M_Year + '</td><td>$' + data[i].M_Cost + '</td></tr>';
+      }
+
+      results += '</table><input type="button" value="Select" onclick="setMakeFromRadio()"/></form>';
+
+      document.getElementById("makeData").innerHTML = results;
+    }
+  });
+};
+
+setMakeFromRadio = function() {
+  var index = $('input[name=mResult]:checked').val();
+
+  setMake(mResults[index].M_ID, mResults[index].M_Make, mResults[index].M_Model, mResults[index].M_Year, mResults[index].M_Cost);
+};
+</script>

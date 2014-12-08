@@ -64,7 +64,7 @@
 <script>
 
 var carResults;
-var carID = -1;
+var carid = -1;
 
 var serviceResults = <?php echo json_encode($data);?>;
 var services = [];
@@ -112,8 +112,8 @@ searchCars = function() {
   });
 }
 
-setCar = function(carid, make, model, year) {
-  carID = carid;
+setCar = function(id, make, model, year) {
+  carid = id;
   document.getElementById("carData").innerHTML = "<table><tr><td>" + carid + "</td><td>" + make + "</td><td>" + model + "</td><td>" + year + "</td></tr></table>";
 }
 
@@ -158,7 +158,7 @@ addAppt = function() {
     return;
   }
 
-  if(carID == -1) {
+  if(carid == -1) {
     window.alert("Select a car");
     return;
   }
@@ -172,7 +172,7 @@ addAppt = function() {
     table: "Service_Appt",
     C_ID: cid,
     E_ID: eid,
-    Car_ID: carID,
+    Car_ID: carid,
     Date_In: service.elements["Date_In"].value.replace(/-/g, ""),
     Date_Out: service.elements["Date_Out"].value.replace(/-/g, "")
   };
