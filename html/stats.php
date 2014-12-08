@@ -33,6 +33,14 @@ switch($_REQUEST["stat"]) {
   case "allCustomers":
     echo json_encode($db->allCustomers());
     break;
+  case "statPage":
+    if(empty($_REQUEST["start"]) || empty($_REQUEST["end"]))
+	echo json_encode(array("in" => "stat page"));
+
+    $startDate = $_REQUEST["start"];
+    $endDate = $_REQUEST["end"];
+    echo json_encode($db->statistics($startDate, $endDate));
+    break;
   default:
     malformed_request();
 }

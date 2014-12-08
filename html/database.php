@@ -311,9 +311,29 @@ class Database
 		return $this->resultToData($result);
 	}
 
+	public function allCars() {
+		$sql = "select Car.Car_ID, Make.M_Make, Make.M_Model, Make.M_Year from Car, Make where Car.M_ID = Make.M_ID and Car_ID not in (select Car_ID from Sale);";
+
+		$result = $this->conn->query($sql);
+
+		return $this->resultToData($result);
+	}
+
 	public function __destruct() {
 		if(!$this->conn->connect_error)
 			$this->conn->close();
+	}
+
+	#Selsky writing PHP for the first time.
+	public function statistics($beginDate, $endDate){
+		$beginDate = $this->conn->escape_string($beginDate);
+		$endDate = $this->conn->escape_string($endDate);
+
+		$beginDate = trim($beginDate);
+		$endDate = trim($endDate);
+		$sql = "select distinct M_Year, M_Make, M_Model, (select sum((Sale.Price-Make.M_Cost)) from Sale, Make, Car where Sale.C_ID = Customer.C_ID and Sale.Car_ID = Car.Car_ID and Car.M_ID = Make.M_ID and Sale.Date >= ". $beginDate ." and Sale.Date <= ".$endDate .")";
+		$result = $this->conn->query($sql);
+		return $this->resultToData($result);
 	}
 }
 ?>
