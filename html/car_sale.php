@@ -118,6 +118,7 @@ addSale = function() {
     success: function(data) {
       if(typeof data.id != 'undefined' && data.id != -1) {
         window.alert("Sale added");
+        location.reload();
       } else {
         window.alert("failed");
       }
