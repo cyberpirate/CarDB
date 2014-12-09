@@ -299,7 +299,7 @@ class Database
 	}
 
 	public function serviceTime() {
-		$sql = "select A_ID as ID, (Date_Out-Date_In) as Days from Service_Appt;";
+		$sql = "select Customer.C_Name as Name, Service_Appt.Date_In as Date, (Date_Out-Date_In) as Days from Service_Appt, Customer where Service_Appt.C_ID = Customer.C_ID;";
 
 		$result = $this->conn->query($sql);
 
@@ -307,7 +307,7 @@ class Database
 	}
 
 	public function allCustomers() {
-		$sql = "select * from Customer;";
+		$sql = "select C_Name as Name, C_Address as Address, C_Phone as Phone from Customer;";
 
 		$result = $this->conn->query($sql);
 
