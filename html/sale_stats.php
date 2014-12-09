@@ -7,6 +7,12 @@
 
   <body>
 
+<table>
+  <tr>
+    <?php include("sidebar.html"); ?>
+    <td>
+
+
     Range of stats:<br>
     <div id="dateRange">
       <form action="#" name="range">
@@ -17,7 +23,9 @@
 
     <div id="statResults">
     </div>
-
+</td>
+</tr>
+</table>
   </body>
 
   <script>

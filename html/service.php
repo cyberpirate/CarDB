@@ -69,6 +69,8 @@
 
 <script>
 
+document.getElementById("cSubmit").style.display = "none";
+
 var carResults;
 var carid = -1;
 
