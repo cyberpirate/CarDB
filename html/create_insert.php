@@ -6,23 +6,30 @@
   </head>
 
   <body>
+    <table>
+      <tr>
+        <?php include("sidebar.html"); ?>
+        <td>
+          Customer:<br>
+          <?php include("find_customer.html"); ?>
+          <br>
 
-    Customer:<br>
-    <?php include("find_customer.html"); ?>
-    <br>
+          Employee:<br>
+          <?php include("find_employee.html"); ?>
+          <br>
 
-    Employee:<br>
-    <?php include("find_employee.html"); ?>
-    <br>
+          Make:<br>
+          <?php include("find_make.html"); ?>
+          <br>
 
-    Make:<br>
-    <?php include("find_make.html"); ?>
-    <br>
+          Service:<br>
+          <?php include("add_service.html"); ?>
+          <br>
 
-    Service:<br>
-    <?php include("add_service.html"); ?>
-    <br>
+          <button type="button" onclick="location.reload()">Add another</button>
 
-    <button type="button" onclick="location.reload()">Add another</button>
-</body>
+        </td>
+      </tr>
+    </table>
+  </body>
 </html>

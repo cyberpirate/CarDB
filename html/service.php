@@ -6,6 +6,10 @@
   </head>
 
   <body>
+<table>
+  <tr>
+    <?php include("sidebar.html"); ?>
+    <td>
 
     Customer:<br>
     <?php include("find_customer.html"); ?>
@@ -58,7 +62,9 @@
           <input type="button" value="Submit" onclick="addAppt()">
       </form>
     </div>
-
+</td>
+</tr>
+</table>
   </body>
 
 <script>

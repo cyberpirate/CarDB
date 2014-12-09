@@ -10,9 +10,6 @@
 
 <script>
 
-var eid = -1;
-var eResults;
-
 addService = function() {
   var service = document.forms["service"];
 
@@ -36,7 +33,6 @@ addService = function() {
 };
 
 setService = function(id, description, cost) {
-  eid = id;
   document.getElementById("serviceData").innerHTML = "<table><tr><td>" + description + "</td><td>" + cost + "</td></tr></table>";
 }
 
